@@ -67,9 +67,9 @@ app.delete('/repositories/:id', (request, response) => {
     return response.status(400).json({ error: 'Repository not found' });
   }
 
-  repositories.slice(repositoryIndex, 1);
+  repositories.splice(repositoryIndex, 1);
 
-  return response.send();
+  return response.status(204).send();
 });
 
 app.post('/repositories/:id/like', (request, response) => {
@@ -83,9 +83,11 @@ app.post('/repositories/:id/like', (request, response) => {
     return response.status(400).json({ error: 'Repository not found' });
   }
 
-  const repository = {
+  let repository = repositories[repositoryIndex];
+
+  repository = {
     id,
-    likes: likes + 1,
+    likes: repository.likes + 1,
   };
 
   repositories[repositoryIndex] = repository;
